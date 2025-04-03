@@ -7,15 +7,36 @@ public class Grid{
     private int size;
 
     public Grid(int size) { //initialize and create a grid with all DOT objects
+        this.size = size;
+        grid = new Sprite[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                grid[i][j] = new Dot(i, j); // Initialize with Dot objects
+            }
+        }
     }
 
- 
-    public Sprite[][] getGrid(){return grid;}
+    public Sprite getGridCord(int x, int y) { 
+        int col = x;
+        int row = (size - y) - 1 ;
+       return grid[row][col]; 
+    }
+    public Sprite[][] getGrid(){
+        return grid;
+    }
+
+    public int getSize() { 
+        return size;
+    }
 
 
 
     public void placeSprite(Sprite s){ //place sprite in new spot
-
+        int x = s.getX();
+        int y = s.getY();
+        if (isValidPosition(x, y)) { //calls the valid method and checks if the sprite can be placed there
+            grid[size - (y+1)][x] = s;
+        }
     }
 
     public void placeSprite(Sprite s, String direction) { //place sprite in a new spot based on direction
@@ -23,14 +44,30 @@ public class Grid{
     }
 
 
-    public void display() { //print out the current grid to the screen 
+    public void display() { 
+        for (int i = 0; i < size; i++) { //loop thru all of the code and print each content of the grid out
+            for (int j = 0; j < size; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
     
-    public void gameover(){ //use this method to display a loss
+    public void gameover(){
+        System.out.println("Game Over! You lost."); //use this method to display a loss
     }
 
-    public void win(){ //use this method to display a win 
+    public void win(){ 
+        System.out.println("Game Over! You lost.");//use this method to display a win 
     }
 
+    public void clearSprite(int x, int y) { //used to clear sprites once interacted or after the player moves
+        grid[size - (y+1)][x] = new Dot(x,y); 
+    }
+
+    private boolean isValidPosition(int x, int y) //used to regulate the movement of the player, to make sure no out of bounds
+    {
+        return x >= 0 && x < size && y >= 0 && y < size;
+    }
 
 }
