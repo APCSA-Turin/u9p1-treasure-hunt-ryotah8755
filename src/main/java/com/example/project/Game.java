@@ -69,13 +69,14 @@ public class Game{
             String move = scanner.nextLine();
 
             grid.clearSprite(player.getX(), player.getY()); //have to clear the previous location of the player before the X and Y values change 
-            player.move(move);
+         
 
             if(player.didInteract(trophy)) { //check all of the posssibilites of the interactions
-                player.interact(size, move, player.getTreasureCount(), trophy);
-                if(player.getTreasureCount() == treasureCount) { 
+                player.interact(size, move, 2, trophy);
+                if(player.getWin() == true) { 
                     play = false;
                     grid.win();
+                    player.setWin(true);
                     if(play == false) { 
                         break;
                     }
@@ -83,7 +84,7 @@ public class Game{
             }
 
             if(player.didInteract(enemy)) { 
-                player.interact(size, move, player.getTreasureCount(), enemy);
+                player.interact(size, move, 2, enemy);
                 if(player.getLives() == 0) { 
                     play = false;
                     grid.gameover();
@@ -97,9 +98,12 @@ public class Game{
                 player.interact(size, move, player.getTreasureCount(), treasure);
             }
 
-            player.setX(player.getX()); //update X and Y to clear and perform interact on the next turn 
-            player.setY(player.getY());
+            player.move(move);
+            
+            // player.setX(player.getX()); //update X and Y to clear and perform interact on the next turn 
+            // player.setY(player.getY());
             grid.placeSprite(player); //place the updated location on grid 
+            
             grid.display();
 
             if (move.equals("exit")) { 
@@ -107,6 +111,7 @@ public class Game{
             }
             
             }  
+        
     }
 
     public void initialize(){ //place everything down

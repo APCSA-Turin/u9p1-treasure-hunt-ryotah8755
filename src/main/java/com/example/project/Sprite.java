@@ -47,6 +47,7 @@ public class Sprite {
             int temp = getY();
             temp++;
             setY(temp);
+
         }
         if(direction.equals("a")) { 
             int temp = getX();
@@ -68,6 +69,24 @@ public class Sprite {
 
     public void interact() { //you can leave this empty
         // Default behavior (can be overridden by subclasses)
+    }
+
+    public boolean isValid(int gridSize, String direction) {
+        int newX = getX();
+        int newY = getY();
+        if (direction.equals("w")){ 
+            newY++;
+        }
+        if (direction.equals("a")) { 
+            newX--;
+        }
+        if (direction.equals("s")) {
+            newY--;
+        }
+        if (direction.equals("d"))  {
+            newX++;
+        }
+        return newX >= 0 && newX < gridSize && newY >= 0 && newY < gridSize;
     }
 
 

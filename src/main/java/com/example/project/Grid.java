@@ -40,7 +40,24 @@ public class Grid{
     }
 
     public void placeSprite(Sprite s, String direction) { //place sprite in a new spot based on direction
+        int x = s.getX();
+        int y = s.getY();
+        if(direction.equals("w")) { 
+            grid[size - y][x] = new Dot(size - y,x);
+        }
+        if(direction.equals("a")) { 
+            grid[size - y - 1][x + 1] = new Dot(size - y - 1,x + 1);
+        }
+        if(direction.equals("s")) { 
+            grid[size - y - 2][x] = new Dot(size - y - 2,x);
+        }
+        if(direction.equals("d")) {    
+            grid[size - y - 1][x - 1] = new Dot(size - y - 1,x - 1);    
+        }
 
+        if (isValidPosition(x, y)) { //calls the valid method and checks if the sprite can be placed there
+            grid[size - (y+1)][x] = s;
+        }
     }
 
 
@@ -69,5 +86,7 @@ public class Grid{
     {
         return x >= 0 && x < size && y >= 0 && y < size;
     }
+
+
 
 }
