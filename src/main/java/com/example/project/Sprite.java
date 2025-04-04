@@ -43,11 +43,11 @@ public class Sprite {
 
     public void move(String direction) { //you can leave this empty
         // Default behavior (can be overridden by subclasses)
+        //get the direction, and add or subtract x/y
         if(direction.equals("w")) { 
             int temp = getY();
             temp++;
             setY(temp);
-
         }
         if(direction.equals("a")) { 
             int temp = getX();

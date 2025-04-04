@@ -12,7 +12,10 @@ public class Player extends Sprite {
         numLives = 2;
         win = false;
     }
-
+    //utility 
+    public void incrementTreasureCount() { 
+        treasureCount++;
+    }
 
     public int getTreasureCount(){
         return treasureCount;
@@ -21,6 +24,11 @@ public class Player extends Sprite {
     public int getLives(){
         return numLives;
     }
+
+    public void incrementLives() { 
+        numLives--;
+    }
+
 
     public boolean getWin(){
         return win;
@@ -54,9 +62,9 @@ public class Player extends Sprite {
                 setWin(true); // set player to win when they collect enough treasures and reach the trophy
             }
         } else if (obj instanceof Enemy) {
-            numLives--;
+            incrementLives();
         } else if (obj instanceof Treasure) {
-            treasureCount++;
+            incrementTreasureCount();
         }
     }
 

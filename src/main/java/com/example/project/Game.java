@@ -43,15 +43,8 @@ public class Game{
 
     public void play(){ //write your game logic here
         boolean play = true;
+        boolean over = false;
         int size = grid.getSize();
-        int treasureCount = 0;
-        for(int i = 0; i < grid.getSize() - 1;i++) { 
-            for(int j = 0; j < grid.getSize() - 1;j++){
-                if(grid.getGridCord(i, j) instanceof Trophy ) { 
-                    treasureCount++;
-                }
-            }
-        }
         while(play){
 
             try {
@@ -67,51 +60,55 @@ public class Game{
             System.out.println(player.getCoords());
             System.out.println(player.getRowCol(size));
             String move = scanner.nextLine();
-
-            grid.clearSprite(player.getX(), player.getY()); //have to clear the previous location of the player before the X and Y values change 
-         
-
-            if(player.didInteract(trophy)) { //check all of the posssibilites of the interactions
-                player.interact(size, move, 2, trophy);
-                if(player.getWin() == true) { 
-                    play = false;
-                    grid.win();
-                    player.setWin(true);
-                    if(play == false) { 
-                        break;
-                    }
-                }
-            }
-
-            if(player.didInteract(enemy)) { 
-                player.interact(size, move, 2, enemy);
-                if(player.getLives() == 0) { 
-                    play = false;
-                    grid.gameover();
-                    if(play == false) { 
-                        break;
-                    }
-                }
-            }
-
-            if(player.didInteract(treasure)) { 
-                player.interact(size, move, player.getTreasureCount(), treasure);
-            }
-
-            player.move(move);
-            
-            // player.setX(player.getX()); //update X and Y to clear and perform interact on the next turn 
-            // player.setY(player.getY());
-            grid.placeSprite(player); //place the updated location on grid 
-            
-            grid.display();
-
+            grid.clearSprite(player.getX(), player.getY()); //have to clear the previous location of the player before the X and Y values change         
             if (move.equals("exit")) { 
                 break;
             }
-            
+            if(over) { 
+                break;
             }  
-        
+            player.move(move);
+            grid.placeSprite(player); //place the updated location on grid 
+            grid.display();
+            System.out.println("Enter move (w/a/s/d): "); 
+            System.out.println("Treasures collected: "  + player.getTreasureCount());
+            System.out.println("Lives remaining: " + player.getLives());
+            System.out.println(player.getCoords());
+            System.out.println(player.getRowCol(size));
+            //for each interact, there are two for each, must account for both
+            if(player.didInteract(treasure)) { 
+                player.interact(size, move, player.getTreasureCount(), treasure);
+            }
+            else if(player.didInteract(treasure2)){ 
+                player.interact(size, move, player.getTreasureCount(), treasure2);
+            }
+            else if(player.didInteract(enemy)) { 
+                player.interact(size, move, 2, enemy);
+                if(player.getLives() == 0) { 
+                    over = true;
+                }
+            }
+            else if(player.didInteract(enemy2)){  
+                player.interact(size, move, 2, enemy2);
+                if(player.getLives() == 0) { 
+                    over = true;
+                }
+            }
+             else if(player.didInteract(trophy)) { //check all of the posssibilites of the interactions
+                player.interact(size, move, 2, trophy);
+                if(player.getTreasureCount() == 2) { 
+                    over = true;
+                }
+            }
+
+        }  
+            
+        if(player.getLives() == 0)  { //when the game ends, has to check if the player won or lost
+            grid.gameover();
+        }
+        else { 
+            grid.win();
+        }
     }
 
     public void initialize(){ //place everything down

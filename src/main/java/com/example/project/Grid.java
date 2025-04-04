@@ -42,6 +42,7 @@ public class Grid{
     public void placeSprite(Sprite s, String direction) { //place sprite in a new spot based on direction
         int x = s.getX();
         int y = s.getY();
+        //depending on the direction, place a dot 
         if(direction.equals("w")) { 
             grid[size - y][x] = new Dot(size - y,x);
         }
@@ -69,13 +70,22 @@ public class Grid{
             System.out.println();
         }
     }
+
+    public void displayResult(Player s) { 
+        if(s.getWin() == false) { 
+            gameover();
+        }
+        else { 
+            win();
+        }
+    }
     
     public void gameover(){
         System.out.println("Game Over! You lost."); //use this method to display a loss
     }
 
     public void win(){ 
-        System.out.println("Game Over! You lost.");//use this method to display a win 
+        System.out.println("You win!");//use this method to display a win 
     }
 
     public void clearSprite(int x, int y) { //used to clear sprites once interacted or after the player moves
